@@ -3,9 +3,7 @@
 
 name: Go
 
-on:
-  push:
-    branches: [ "trunk" ]
+on: [push]
 
 jobs:
 
