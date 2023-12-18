@@ -30,7 +30,7 @@ jobs:
       uses: dominikh/staticcheck-action@v1.3.0    
 
   test:
-    needs: lint
+    needs: cache_checkout
     runs-on: ubuntu-latest
     steps:
     - name: Get Cached Checkout
