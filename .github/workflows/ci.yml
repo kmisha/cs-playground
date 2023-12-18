@@ -1,0 +1,47 @@
+name: CI
+
+on: [push]
+
+jobs:
+  cache_checkout:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-checkout-${{ github.run_id }}
+        path: ${{ github.workspace }}/**/*
+
+  lint:
+    needs: cache_checkout
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Cached Checkout
+      uses: actions/download-artifact@v3
+      with:
+        name: my-checkout-${{ github.run_id }}
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+
+    - name: Lint project 
+      uses: dominikh/staticcheck-action@v1.3.0    
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Cached Checkout
+      uses: actions/download-artifact@v3
+      with:
+        name: my-checkout-${{ github.run_id }}
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+
+    - name: Test project 
+      run: go test ./...
