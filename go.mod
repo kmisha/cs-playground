@@ -1,3 +1,3 @@
-module kmisha.io/cs
+module kmisha.ru/cs
 
-go 1.21
+go 1.23.0
